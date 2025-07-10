@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import API from "../lib/api"; // ✅ Make sure this is set up
 
@@ -26,12 +26,12 @@ export default function ProblemList({ problems, setProblems, onSolved, roomCode,
         <div>
             <h3 className="font-semibold mb-2">Problems</h3>
             <div className="flex gap-2 mb-2">
-                <Input
+                <input
                     placeholder="https://leetcode.com/problems/..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
                 />
-                <Button onClick={handleAdd}>Add</Button>
+                <button onClick={handleAdd}>Add</button>
             </div>
             <ul className="space-y-2">
                 {problems.map((url, idx) => (
@@ -50,13 +50,14 @@ export default function ProblemList({ problems, setProblems, onSolved, roomCode,
                         {/* <Button variant="outline" onClick={() => onSolved(idx)}>
                             Mark Solved
                         </Button> */}
-                        <Button
+                        <button
                             variant="outline"
-                            onClick={() => onSolved(idx)}
+                            onClick={() => {console.log("Mark solved clicked", idx);onSolved(idx)}}
                             disabled={!!standing[userId]?.[idx] || timeLeft <= 0}
+                            className="bg-amber-400 cursor-pointer"
                         >
                             Mark Solved
-                        </Button>
+                        </button>
                         {/* <Button
                             variant="outline"
                             disabled={!!standings[userId]?.[idx]} 

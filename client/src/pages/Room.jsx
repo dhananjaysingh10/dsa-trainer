@@ -2,10 +2,10 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import socket from "../socket/socket";
 import API from "../lib/api";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 import ProblemList from "../components/ProblemList";
 import StandingsTable from "../components/StandingsTable";
-
+import { useSelector, useDispatch } from 'react-redux';
 export default function Room() {
     const { code } = useParams();
     const [problems, setProblems] = useState([]);
@@ -13,6 +13,8 @@ export default function Room() {
     const [startTime, setStartTime] = useState(null);
     const [duration, setDuration] = useState(null);
     const [timeLeft, setTimeLeft] = useState(null);
+    const { currentUser } = useSelector((state) => state.user);
+    const userId = currentUser?.username;
     useEffect(() => {
         if (!startTime || !duration) return;
 
@@ -77,7 +79,7 @@ export default function Room() {
                 const res = await API.get(`/contest/${code}`);
                 setProblems(res.data.problems || []);
                 setStartTime(new Date(res.data.startTime));
-                setDuration(res.data.duration);
+                setDuration(res.data.duration * 60);
             } catch (err) {
                 console.error("Failed to fetch contest");
             }
@@ -92,9 +94,9 @@ export default function Room() {
             alert("⛔ Contest is over. Cannot mark as solved.");
             return;
         }
-        const userId = localStorage.getItem("userId") || "guest";
+        // const userId = localStorage.getItem("userId") || "guest";
         const penalty = duration - timeLeft; // ⏱️ how long they took
-
+console.log("ejc", code, userId, index, penalty);
         socket.emit("markSolved", {
             roomCode: code,
             userId,

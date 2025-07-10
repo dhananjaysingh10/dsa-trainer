@@ -72,7 +72,7 @@ const socketHandlers = (io) => {
                 if (!contest) return;
 
                 const now = new Date();
-                const endTime = new Date(contest.startTime.getTime() + contest.duration * 1000);
+                const endTime = new Date(contest.startTime.getTime() + contest.duration *60* 1000);
 
                 // ❌ Contest is over
                 if (now > endTime) {
