@@ -14,6 +14,6 @@ router.post('/signout', signOut);
 router.get('/getusers', verifyToken, getUsers);
 router.get('/profile/:username', getProfile);
 // router.get('/cfprofile/:username', getCfProfile);
-router.get('/:userId', getUser);
+// router.get('/:userId', getUser);
 
 module.exports = router

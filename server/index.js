@@ -3,31 +3,35 @@ const http = require('http');
 const { Server } = require('socket.io');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
-const contestRoutes = require('./routes/contestRoutes');
-const socketHandlers = require('./sockets/socketHandlers');
+const connectDB = require('./config/db.js');
+const contestRoutes = require('./routes/contestRoutes.js');
+const socketHandlers = require('./sockets/socketHandlers.js');
 const userRoutes = require('./routes/userRoutes.js');
 const authRoutes = require('./routes/authRoutes.js');
-
+const path = require('path');
 dotenv.config();
-console.log('MONGO_URI:', process.env.MONGO_URI); 
+// console.log('MONGO_URI:', process.env.MONGO_URI); 
 connectDB();
+// const __dirname = path.resolve();
 
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173', // frontend
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST'],
     credentials: true
   }
 });
 
 app.use(cors({
-  origin: 'http://localhost:5173', // 👈 your frontend's origin
-  credentials: true               // 👈 required for cookies
+  origin: 'http://localhost:5173',
+  credentials: true
 }));
 app.use(express.json());
+
+const PORT = process.env.PORT || 5000;
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // API routes
 app.use('/api/user', userRoutes);
@@ -37,5 +41,15 @@ app.use('/api/contest', contestRoutes);
 // Socket.io logic
 socketHandlers(io);
 
-const PORT = process.env.PORT || 5000;
-server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.use(
+  express.static(
+    path.join(__dirname, '..', 'client', 'dist'),
+    { extensions: ['js', 'css', 'html'] }
+  )
+);
+
+app.use((req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
+});
+
+
