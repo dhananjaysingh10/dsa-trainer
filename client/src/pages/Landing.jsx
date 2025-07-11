@@ -47,12 +47,14 @@ export default function Landing() {
 
           <div className="flex flex-col justify-center items-center md:items-start p-4 md:w-1/2 gap-4">
             <h1 className="text-3xl font-bold lg:text-6xl text-center md:text-left">
-              Welcome to <span className="text-amber-500">YetAnother</span> WeBLOG
+              Welcome to <span className="text-amber-500">Algo</span> Trainer
             </h1>
-            <p className="text-gray-300 text-xs sm:text-lg mt-2 text-center md:text-left">
+            {/* <p className="text-gray-300 text-xs sm:text-lg mt-2 text-center md:text-left">
               Here you'll find resources to ace CP & interviews—curated content, contests, and more.
+            </p> */}
+            <p className="text-gray-300 text-xs sm:text-lg mt-2 text-center md:text-left">
+              Practice DSA with friends — create rooms, join live contests, and climb the leaderboard together. Level up your coding skills in a fun, competitive way.
             </p>
-
             {currentUser ? (
               <div className="w-full flex flex-col sm:flex-row items-center gap-4 mt-4">
                 <input
