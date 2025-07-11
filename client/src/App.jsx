@@ -3,15 +3,17 @@ import Home from "./pages/Home";
 import Room from "./pages/Room";
 import Landing from "./pages/Landing";
 import Navbar from "./components/Nabar";
-
+import PrivateRoute from './components/PrivateRoute'
 function App() {
   return (
     <Router>
-      <Navbar/>
+      <Navbar />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/room/:code" element={<Room />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/home" element={<Home />} />
+          <Route path="/room/:code" element={<Room />} />
+        </Route>
       </Routes>
     </Router>
   );
