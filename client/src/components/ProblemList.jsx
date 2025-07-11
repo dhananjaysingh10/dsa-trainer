@@ -2,10 +2,12 @@
 // import { Input } from "@/components/ui/input";
 import { useState } from "react";
 import API from "../lib/api"; // ✅ Make sure this is set up
+import { useSelector } from "react-redux";
 
 export default function ProblemList({ problems, setProblems, onSolved, roomCode, timeLeft, standing }) {
     const [input, setInput] = useState("");
-    const userId = localStorage.getItem("userId") || "guest"
+    const { currentUser } = useSelector((state) => state.user);
+    const userId = currentUser?.username;
     const handleAdd = async () => {
         if (input.trim()) {
             try {
@@ -13,7 +15,7 @@ export default function ProblemList({ problems, setProblems, onSolved, roomCode,
                     problem: input.trim(),
                 });
 
-                setProblems(res.data.problems); // ✅ update from DB
+                setProblems(res.data.problems); 
                 setInput("");
             } catch (err) {
                 alert("Failed to add problem");
@@ -51,10 +53,16 @@ export default function ProblemList({ problems, setProblems, onSolved, roomCode,
                             Mark Solved
                         </Button> */}
                         <button
-                            variant="outline"
-                            onClick={() => {console.log("Mark solved clicked", idx);onSolved(idx)}}
+                            onClick={() => {
+                                console.log("Mark solved clicked", idx);
+                                onSolved(idx);
+                            }}
                             disabled={!!standing[userId]?.[idx] || timeLeft <= 0}
-                            className="bg-amber-400 cursor-pointer"
+                            className={`cursor-pointer px-4 py-2 rounded font-semibold transition
+    ${!!standing[userId]?.[idx] || timeLeft <= 0
+                                    ? "bg-green-300 text-gray-700 cursor-not-allowed border-2"
+                                    : "bg-amber-400 hover:bg-amber-500 text-white"
+                                }`}
                         >
                             Mark Solved
                         </button>
