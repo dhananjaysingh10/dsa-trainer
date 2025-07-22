@@ -8,6 +8,8 @@ const contestRoutes = require('./routes/contestRoutes.js');
 const socketHandlers = require('./sockets/socketHandlers.js');
 const userRoutes = require('./routes/userRoutes.js');
 const authRoutes = require('./routes/authRoutes.js');
+const problemsRoutes = require('./routes/problemRoutes.js');
+
 const path = require('path');
 dotenv.config();
 // console.log('MONGO_URI:', process.env.MONGO_URI); 
@@ -37,6 +39,7 @@ server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 app.use('/api/user', userRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/contest', contestRoutes);
+app.use('/api/problems', problemsRoutes);
 
 // Socket.io logic
 socketHandlers(io);

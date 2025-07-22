@@ -1,5 +1,5 @@
 const Contest = require('../models/Contest');
-
+// const { checkSubmission } = require('../service/checker.js')
 const socketHandlers = (io) => {
     io.on('connection', (socket) => {
         console.log('Client connected:', socket.id);
@@ -69,19 +69,53 @@ const socketHandlers = (io) => {
         socket.on("markSolved", async ({ roomCode, userId, questionIndex, time }) => {
             try {
                 const contest = await Contest.findOne({ code: roomCode });
+
                 if (!contest) return;
 
                 const now = new Date();
-                const endTime = new Date(contest.startTime.getTime() + contest.duration *60* 1000);
+                const endTime = new Date(contest.startTime.getTime() + contest.duration * 60 * 1000);
 
-                // ❌ Contest is over
+                // Contest is over
                 if (now > endTime) {
-                    socket.emit("errorMessage", "⛔ Contest is over. No more submissions allowed.");
+                    socket.emit("errorMessage", "Contest is over. No more submissions allowed.");
                     return;
                 }
 
                 const prev = contest.standings.get(userId) || {};
                 if (prev[questionIndex] !== undefined) return;
+
+                // const recentAC = checkSubmission({
+                //     username: userId, limit: 100, room: roomCode, leetcodeId
+                // });
+                // const contestProblem = contest.problems;
+                // // [DataTransfer, diffIndexes.sdsfsdf]
+                // // problem user clicked
+                // const clickedProblem = contestProblem[questionIndex];
+                // const startTime = contest.startTime;
+                // let checkedTime = -1;
+                // recentAC.forEach(element => {
+                //     if (element.title == clickedProblem && element.time >= startTime) {
+                //         checkedTime = element.time;
+                //         return;
+                //     }
+                // });
+                // if (checkedTime !== -1) {
+
+                    // const updatedStanding = {
+                    //     ...prev,
+                    //     [questionIndex]: time,
+                    //     penalty: (prev.penalty || 0) + time,
+                    // };
+
+                    // contest.standings.set(userId, updatedStanding);
+                    // await contest.save();
+                    // io.to(roomCode).emit("standingUpdate", {
+                    //     userId,
+                    //     questionIndex,
+                    //     time,
+                    //     penalty: updatedStanding.penalty,
+                    // });
+                // }
 
                 const updatedStanding = {
                     ...prev,

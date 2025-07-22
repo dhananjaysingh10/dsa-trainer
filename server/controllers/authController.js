@@ -71,6 +71,7 @@ const signin = async(req, res, next) => {
 
 const google = async (req, res, next) => {
     const {email, name, googlePhotoUrl} = req.body;
+    console.log(name);
     try {
         const user = await User.findOne({email});
         if(user) {
@@ -82,6 +83,7 @@ const google = async (req, res, next) => {
                 maxAge: 7 * 24 * 60 * 60 * 1000,
             }).json(rest);
         } else {
+            console.log(name);
             const generatedPassword = Math.random().toString(36).slice(-8) + Math.random().toString(36).slice(-8);
             const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
             const newUser = new User({

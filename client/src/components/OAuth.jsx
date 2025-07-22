@@ -26,7 +26,7 @@ export default function OAuth() {
             }, { withCredentials: true })
             const data = res;
             console.log(res);
-            if (res.statusText == 'OK') {
+            if (res.status == 200) {
             console.log(data.data);
                 dispatch(signInSuccess(data.data));
                 navigate('/home');

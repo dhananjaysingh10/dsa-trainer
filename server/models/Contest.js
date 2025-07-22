@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const contestSchema = new mongoose.Schema({
   code: String,
-  problems: [String], // e.g. leetcode slugs
+  admin: String,
+  problems: [String], // leetcode slugs/Problem name
   attendees: [String],
   startTime: Date,
   duration: Number,
