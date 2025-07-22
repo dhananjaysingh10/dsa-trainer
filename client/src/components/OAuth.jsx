@@ -37,10 +37,10 @@ export default function OAuth() {
     }
     return (
         //     <>c
-        <button type='button' outline onClick={handleGoogleClick} className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-6 rounded-lg shadow transition">
+        <button type='button' outline onClick={handleGoogleClick} className="bg-amber-500 hover:bg-amber-600 text-white font-semibold py-2 px-4 rounded-lg shadow transition">
             {/* // <Button type='button' outline > */}
             <AiFillGoogleCircle className='w-6 h-6 mr-2' />
-            Continue with google
+            Continue with Google
         </button>
         // </>
 
